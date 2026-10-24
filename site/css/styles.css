@@ -212,6 +212,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
 /* ---------- Fleet grid ---------- */
 .fleet { padding: 6rem 0 7rem; background: var(--bg); }
 .fleet__head { margin-bottom: 2.8rem; }
+.fleet__viewport { width: min(1240px, 100% - 32px); margin-inline: auto; }
 .fleet__track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
 .fpanel {
