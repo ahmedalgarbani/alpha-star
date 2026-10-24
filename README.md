@@ -1,2 +1,0 @@
-# alpha-star
-alpha-star
