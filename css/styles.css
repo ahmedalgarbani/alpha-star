@@ -176,7 +176,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
 
 .hero__title { margin: 1.4rem 0 1.2rem; font-weight: 900; }
 .hero__title .split { display: block; }
-.hero__title .split:first-child { font-size: clamp(3.2rem, 8vw, 7.2rem); line-height: 1.05; letter-spacing: -.02em; }
+.hero__kw { display: block; font-family: var(--font-display); font-size: clamp(1rem, 1.7vw, 1.3rem); font-weight: 700; line-height: 1.5; color: var(--text); opacity: .92; margin-bottom: .9rem; }
+.hero__title .split:not(.amber) { font-size: clamp(3.2rem, 8vw, 7.2rem); line-height: 1.05; letter-spacing: -.02em; }
 .hero__title .split.amber { font-size: clamp(1.4rem, 2.8vw, 2.4rem); line-height: 1.35; margin-top: .5rem; max-width: 22ch; }
 .hero__sub { font-size: clamp(1rem, 1.5vw, 1.18rem); color: #C8CED8; max-width: 540px; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2.2rem; }
@@ -263,7 +264,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
 .qfield legend b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--amber); color: var(--amber-ink); font-size: .8rem; }
 .qrow { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
 
-.qtypes { display: grid; grid-template-columns: repeat(4, 1fr); gap: .7rem; }
+.qtypes { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: .7rem; }
 .qtype input, .seg input, .switch input { position: absolute; opacity: 0; pointer-events: none; }
 .qtype span {
   display: grid; justify-items: center; gap: .5rem; text-align: center; height: 100%;
@@ -558,7 +559,7 @@ a.ccard:hover .ccard__go { transform: translateX(-6px); color: var(--amber); }
   .fleet { padding: 4.5rem 0 5rem; }
   .fleet__track { grid-template-columns: 1fr; }
   .hero__inner { padding-top: calc(var(--header-h) + 2rem); }
-  .hero__title .split:first-child { font-size: clamp(3rem, 15vw, 4.4rem); }
+  .hero__title .split:not(.amber) { font-size: clamp(3rem, 15vw, 4.4rem); }
   .hero__actions .btn { width: 100%; }
   .qform { padding: 1.3rem; border-radius: 22px; }
   .qtypes { grid-template-columns: 1fr 1fr; }
@@ -593,3 +594,23 @@ a.ccard:hover .ccard__go { transform: translateX(-6px); color: var(--amber); }
   .js .reveal, .js .fade, .w > span { opacity: 1; transform: none; }
   .hero__slide { transform: none; }
 }
+
+/* ---------- Service areas + FAQ ---------- */
+.areas { padding: 7rem 0; background: var(--bg-2); border-top: 1px solid var(--line); }
+.areas__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.area { background: var(--bg-3); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.6rem; transition: border-color .3s; }
+.area:hover { border-color: rgba(246,177,0,.45); }
+.area h3 { font-size: 1.15rem; margin-bottom: .5rem; }
+.area h3::before { content: ""; display: block; width: 28px; height: 4px; border-radius: 2px; background: var(--amber); margin-bottom: .9rem; }
+.area p { color: var(--muted); font-size: .95rem; }
+.faq { margin-top: 3.5rem; max-width: 880px; }
+.faq__title { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 1.2rem; }
+.faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--bg-3); margin-bottom: 10px; transition: border-color .3s; }
+.faq details[open] { border-color: rgba(246,177,0,.45); }
+.faq summary { cursor: pointer; list-style: none; padding: 1.1rem 1.3rem; font-family: var(--font-display); font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--amber); font-size: 1.6rem; line-height: 1; flex-shrink: 0; transition: transform .3s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding: 0 1.3rem 1.2rem; color: var(--muted); }
+@media (max-width: 1024px) { .areas__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .areas { padding: 5rem 0; } .areas__grid { grid-template-columns: 1fr; } }

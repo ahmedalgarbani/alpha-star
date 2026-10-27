@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /editor-preview.php
 
-Sitemap: https://ahmedalgarbani.github.io/alpha-star/sitemap.xml
+Sitemap: https://riyadh-tajir.com/sitemap.xml

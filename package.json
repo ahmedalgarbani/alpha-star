@@ -1,0 +1,11 @@
+{
+  "name": "nujoom-alfa-site",
+  "private": true,
+  "description": "نجوم الفاء website with built-in password-protected editor",
+  "scripts": {
+    "start": "node admin/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

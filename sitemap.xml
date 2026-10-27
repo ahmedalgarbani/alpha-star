@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://ahmedalgarbani.github.io/alpha-star/</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://riyadh-tajir.com/</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-13.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-17.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-09.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-20.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-05.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-11.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-14.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-19.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-04.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-06.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-07.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-15.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-01.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-08.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-03.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-12.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-16.jpg</image:loc></image:image>
+    <image:image><image:loc>https://riyadh-tajir.com/assets/img/photo-02.jpg</image:loc></image:image>
   </url>
 </urlset>

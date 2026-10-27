@@ -158,14 +158,26 @@
   onScroll();
 
   /* ---------- Quote builder ---------- */
-  var TYPES = {
-    crane:     { label: "ونش متحرك", metric: "الحمولة المطلوبة", unit: "طن", min: 5, max: 175, step: 5, def: 50, img: "photo-13.jpg" },
-    lift:      { label: "مان لفت", metric: "ارتفاع العمل", unit: "متر", min: 12, max: 45, step: 1, def: 20, img: "photo-11.jpg" },
-    excavator: { label: "حفارة / جرافة", kinds: true, img: "photo-20.jpg" },
-    forklift:  { label: "رافعة شوكية / تيليهندل", metric: "الحمولة المطلوبة", unit: "طن", min: 3, max: 16, step: 1, def: 5, img: "photo-05.jpg" }
-  };
 
   var form = $("#qform");
+
+  // Equipment types come from the radio buttons in the form (data-* attributes),
+  // so new types can be added from the site editor without touching this file.
+  // (FALLBACK covers pages saved before these attributes existed.)
+  var FALLBACK = {
+    crane:     { metric: "الحمولة المطلوبة", unit: "طن", min: 5, max: 175, step: 5, def: 50, img: "assets/img/photo-13.jpg" },
+    lift:      { metric: "ارتفاع العمل", unit: "متر", min: 12, max: 45, step: 1, def: 20, img: "assets/img/photo-11.jpg" },
+    excavator: { kinds: "1", img: "assets/img/photo-20.jpg" },
+    forklift:  { metric: "الحمولة المطلوبة", unit: "طن", min: 3, max: 16, step: 1, def: 5, img: "assets/img/photo-05.jpg" }
+  };
+  var TYPES = {};
+  $$('input[name="type"]', form).forEach(function (r) {
+    var d = r.hasAttribute("data-img") || r.hasAttribute("data-metric") || r.hasAttribute("data-kinds") ? r.dataset : (FALLBACK[r.value] || {});
+    TYPES[r.value] = d.kinds ? { label: r.parentNode.textContent.trim(), kinds: true, img: d.img } : {
+      label: r.parentNode.textContent.trim(), metric: d.metric || "الحمولة المطلوبة", unit: d.unit || "طن",
+      min: Number(d.min) || 1, max: Number(d.max) || 100, step: Number(d.step) || 1, def: Number(d.def) || Number(d.min) || 1, img: d.img
+    };
+  });
   var cap = $("#qCap");
   var capField = $("#qCapField"), kindField = $("#qKindField");
   var qMetric = $("#qMetric"), qMin = $("#qMin"), qMax = $("#qMax");
@@ -210,14 +222,14 @@
       }
       qPhoto.classList.add("swap");
       setTimeout(function () {
-        qPhoto.style.backgroundImage = "url('assets/img/" + t.img + "')";
+        if (t.img) qPhoto.style.backgroundImage = "url('" + t.img + "')";
         qPhoto.classList.remove("swap");
       }, 250);
     }
   }
 
   function updateQuote() {
-    var key = val("type") || "crane";
+    var key = val("type") || Object.keys(TYPES)[0];
     applyType(key);
     var t = TYPES[key];
     var lines = ["السلام عليكم، أرغب بعرض سعر لتأجير:", "• المعدة: " + t.label];

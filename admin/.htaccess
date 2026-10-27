@@ -1,0 +1,10 @@
+# Editor folder. Open it at /admin/ (index.php shows the login page).
+# The files below are private and blocked from the web.
+Options -Indexes
+DirectoryIndex index.php
+
+<FilesMatch "^(config\.php|lib\.php|server\.js|editor\.html|attempts\.json|\.htaccess)$">
+  Require all denied
+</FilesMatch>
+
+RedirectMatch 404 /admin/(backups|data)(/|$)
