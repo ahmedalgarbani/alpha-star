@@ -1,5 +1,5 @@
 <?php
-/* نجوم الفاء — shared code for the PHP editor (login, sessions, files).
+/* سرعة الإنجاز الدولية — shared code for the PHP editor (login, sessions, files).
    Used by admin/index.php and editor-preview.php. Set your password in admin/config.php. */
 
 if (!defined('ED_APP')) { http_response_code(404); exit; }

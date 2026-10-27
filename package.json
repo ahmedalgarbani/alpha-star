@@ -1,9 +1,10 @@
 {
-  "name": "nujoom-alfa-site",
+  "name": "speed-international-site",
   "private": true,
-  "description": "نجوم الفاء website with built-in password-protected editor",
+  "description": "سرعة الإنجاز الدولية website with built-in password-protected editor",
   "scripts": {
-    "start": "node admin/server.js"
+    "start": "node admin/server.js",
+    "php": "php -d extension=pdo_sqlite -S localhost:8000 router.php"
   },
   "engines": {
     "node": ">=18"

@@ -75,10 +75,11 @@ if ($f === 'llms') {
   $faqs = db_all("SELECT question, answer FROM faqs WHERE status = 'published' ORDER BY sort_order, id");
   $l = function ($s) { return str_replace(["\r", "\n"], ' ', trim((string) $s)); };
 
-  echo '# ' . SITE_NAME . ' (' . SITE_NAME_EN . ")\n\n";
+  echo '# ' . SITE_LEGAL . ' (' . SITE_NAME_EN . ")\n\n";
   echo "> شركة سعودية مقرها الرياض لتأجير الرافعات والونشات (كرين) من ٥ إلى ١٧٥ طن، والمان لفت، والحفارات والشيولات، والرافعات الشوكية والتيليهندل — مع مشغلين معتمدين وصيانة ميدانية ٢٤/٧ وتوصيل لجميع مدن المملكة العربية السعودية.\n\n";
-  echo '- الهاتف وواتساب: ' . SITE_PHONE . "\n";
-  echo "- المقر: الرياض، المملكة العربية السعودية\n";
+  echo '- المدير العام (زياد مطير) — هاتف وواتساب: ' . SITE_PHONE . "\n";
+  echo '- مسؤول الحركة (عمر): ' . SITE_PHONE2 . "\n";
+  echo '- العنوان: ' . SITE_ADDRESS . "، المملكة العربية السعودية\n";
   echo '- مناطق الخدمة: ' . implode('، ', array_keys(CITIES)) . "\n";
   echo "- مدة الإيجار: يومي، أسبوعي، شهري، سنوي\n- الموقع: " . url('/') . "\n\n";
   echo "## الصفحات الرئيسية\n\n";

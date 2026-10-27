@@ -1,4 +1,4 @@
-/* نجوم الفاء — main.js
+/* سرعة الإنجاز الدولية — main.js
    Header · hero slideshow · quote builder
    · gallery filter + lightbox · scroll effects                       */
 
@@ -171,13 +171,35 @@
     forklift:  { metric: "الحمولة المطلوبة", unit: "طن", min: 3, max: 16, step: 1, def: 5, img: "assets/img/photo-05.jpg" }
   };
   var TYPES = {};
-  $$('input[name="type"]', form).forEach(function (r) {
+  // A step that doesn't divide the range (e.g. 10→80 by 6) makes the maximum unreachable and the
+  // bar jump oddly — use the nearest smaller step that fits exactly.
+  function fitStep(min, max, step) {
+    var span = max - min;
+    step = Math.max(1, Math.min(step, span));
+    if (span % 1 || step % 1) return step;
+    while (span % step) step--;
+    return step;
+  }
+  function readType(r) {
     var d = r.hasAttribute("data-img") || r.hasAttribute("data-metric") || r.hasAttribute("data-kinds") ? r.dataset : (FALLBACK[r.value] || {});
-    TYPES[r.value] = d.kinds ? { label: r.parentNode.textContent.trim(), kinds: true, img: d.img } : {
-      label: r.parentNode.textContent.trim(), metric: d.metric || "الحمولة المطلوبة", unit: d.unit || "طن",
-      min: Number(d.min) || 1, max: Number(d.max) || 100, step: Number(d.step) || 1, def: Number(d.def) || Number(d.min) || 1, img: d.img
-    };
-  });
+    var label = r.parentNode.textContent.replace(/\s+/g, " ").trim();
+    if (d.kinds) return { label: label, kinds: true, img: d.img };
+    var min = Number(d.min) || 0, max = Number(d.max) || 100;
+    if (max <= min) max = min + 100;
+    var step = fitStep(min, max, Number(d.step) || 1);
+    var def = Number(d.def);
+    def = isNaN(def) || d.def === undefined || d.def === "" ? min : Math.min(max, Math.max(min, def));
+    def = min + Math.round((def - min) / step) * step;
+    return { label: label, metric: d.metric || "الحمولة المطلوبة", unit: d.unit || "طن", min: min, max: max, step: step, def: def, img: d.img };
+  }
+  $$('input[name="type"]', form).forEach(function (r) { TYPES[r.value] = readType(r); });
+  function typeOf(key) {
+    if (!TYPES[key]) {   // added after page load (or unknown) — read it now instead of failing
+      var r = form.querySelector('input[name="type"][value="' + key + '"]');
+      TYPES[key] = r ? readType(r) : TYPES[Object.keys(TYPES)[0]];
+    }
+    return TYPES[key];
+  }
   var cap = $("#qCap");
   var capField = $("#qCapField"), kindField = $("#qKindField");
   var qMetric = $("#qMetric"), qMin = $("#qMin"), qMax = $("#qMax");
@@ -186,6 +208,39 @@
   var gauge = $(".gauge"), gFill = $("#gFill"), gNeedle = $("#gNeedle");
   var gVal = $("#gVal"), gUnit = $("#gUnit"), gType = $("#gType"), gRead = $(".gauge__read");
   var currentType = null;
+
+  // Phones: the gauge is far below the slider, so show the value right on the field + − / + buttons.
+  var capVal = document.createElement("output");
+  capVal.className = "qrange__val";
+  capVal.setAttribute("for", "qCap");
+  capVal.setAttribute("aria-live", "polite");
+  qMetric.parentNode.appendChild(capVal);
+  var capRow = document.createElement("div");
+  capRow.className = "qrange__row";
+  cap.parentNode.insertBefore(capRow, cap);
+  function stepBtn(sign, text, label) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "qrange__btn"; b.textContent = text; b.setAttribute("aria-label", label);
+    var hold = null, rep = null;
+    function bump() {
+      var t = typeOf(currentType); if (!t || t.kinds) return;
+      var v = Math.min(t.max, Math.max(t.min, Number(cap.value) + sign * t.step));
+      if (v === Number(cap.value)) return stop();
+      cap.value = v;
+      updateQuote();
+    }
+    function stop() { clearTimeout(hold); clearInterval(rep); hold = rep = null; }
+    b.addEventListener("pointerdown", function (e) {
+      e.preventDefault();
+      bump();
+      hold = setTimeout(function () { rep = setInterval(bump, 80); }, 380);   // press and hold = fast change
+    });
+    ["pointerup", "pointerleave", "pointercancel", "blur"].forEach(function (ev) { b.addEventListener(ev, stop); });
+    b.addEventListener("click", function (e) { if (e.detail === 0) bump(); });   // keyboard (Enter / Space)
+    return b;
+  }
+  var capMinus = stepBtn(-1, "−", "إنقاص"), capPlus = stepBtn(1, "+", "زيادة");
+  capRow.appendChild(capMinus); capRow.appendChild(cap); capRow.appendChild(capPlus);   // RTL: − on the right (low end), + on the left
 
   // gauge ticks
   (function () {
@@ -208,7 +263,7 @@
   }
 
   function applyType(key) {
-    var t = TYPES[key];
+    var t = typeOf(key);
     if (key !== currentType) {
       currentType = key;
       capField.hidden = !!t.kinds;
@@ -231,7 +286,7 @@
   function updateQuote() {
     var key = val("type") || Object.keys(TYPES)[0];
     applyType(key);
-    var t = TYPES[key];
+    var t = typeOf(key);
     var lines = ["السلام عليكم، أرغب بعرض سعر لتأجير:", "• المعدة: " + t.label];
 
     if (t.kinds) {
@@ -244,9 +299,15 @@
       lines.push("• النوع: " + kind);
     } else {
       var v = Number(cap.value);
-      var f = (v - t.min) / (t.max - t.min);
+      var f = Math.min(1, Math.max(0, (v - t.min) / (t.max - t.min)));
       cap.style.setProperty("--f", (f * 100) + "%");
       setGauge(f);
+      if (capVal.value !== ar(v) + " " + t.unit) {
+        capVal.value = ar(v) + " " + t.unit;
+        capVal.classList.remove("bump"); void capVal.offsetWidth; capVal.classList.add("bump");
+      }
+      capMinus.disabled = v <= t.min;
+      capPlus.disabled = v >= t.max;
       gRead.classList.remove("is-text");
       gVal.textContent = ar(v);
       gUnit.textContent = t.unit;

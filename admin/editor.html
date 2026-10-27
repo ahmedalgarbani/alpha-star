@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex,nofollow">
-<title>لوحة تحكم الموقع · نجوم الفاء</title>
+<title>لوحة تحكم الموقع · سرعة الإنجاز الدولية</title>
 <style>
   :root {
     --bg: #0e1116; --panel: #151a21; --panel-2: #1c222b; --field: #0f1318; --line: #2a313c; --text: #e8ecf1; --muted: #8b95a3;
@@ -142,6 +142,7 @@
   </div>
   <div class="spacer"></div>
   <span class="status" id="status">كل التغييرات محفوظة</span>
+  <a class="btn" id="cms" href="#" hidden>📝 المدونة والإعلانات</a>
   <a class="btn" id="viewSite" href="/" target="_blank">عرض الموقع ↗</a>
   <a class="btn" id="logout" href="#" hidden>تسجيل الخروج</a>
   <button class="btn btn--primary" id="save" title="Ctrl+S">💾 حفظ</button>
@@ -1545,6 +1546,7 @@
     };
   });
   if (ED.logout) { $("#logout").href = ED.logout; $("#logout").hidden = false; }
+  if (ED.content) { $("#cms").href = ED.content; $("#cms").hidden = false; }
   $("#viewSite").href = ED.root;
   frame.src = ED.preview;
   $("#undo").onclick = undo; $("#redo").onclick = redo; $("#save").onclick = save;

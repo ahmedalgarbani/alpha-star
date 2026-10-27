@@ -1,4 +1,4 @@
-/* نجوم الفاء — website server + password-protected editor (no dependencies)
+/* سرعة الإنجاز الدولية — website server + password-protected editor (no dependencies)
 
    On your PC:   node admin/server.js                     → http://localhost:4000/admin (no password, only this PC)
    On a server:  ADMIN_PASSWORD=your-secret node admin/server.js

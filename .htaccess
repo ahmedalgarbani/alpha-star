@@ -37,7 +37,10 @@ RedirectMatch 404 ^/inc(/|$)
   ExpiresByType image/png "access plus 30 days"
   ExpiresByType image/webp "access plus 30 days"
   ExpiresByType image/avif "access plus 30 days"
-  ExpiresByType text/css "access plus 7 days"
-  ExpiresByType application/javascript "access plus 7 days"
-  ExpiresByType text/javascript "access plus 7 days"
+</IfModule>
+# CSS/JS change whenever the site is edited — browsers must check for a newer copy (fast 304 if unchanged)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
 </IfModule>

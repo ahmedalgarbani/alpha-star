@@ -1,5 +1,5 @@
 <?php
-/* نجوم الفاء — shared core for the dynamic pages (blog, ads, FAQ) and the content dashboard.
+/* سرعة الإنجاز الدولية — shared core for the dynamic pages (blog, ads, FAQ) and the content dashboard.
    Database: SQLite by default (file in admin/data, nothing to set up) or MySQL — see admin/config.php. */
 
 if (!defined('SITE_APP')) { http_response_code(404); exit; }
@@ -8,11 +8,18 @@ date_default_timezone_set('Asia/Riyadh');
 mb_internal_encoding('UTF-8');
 
 const SITE_ROOT = __DIR__ . '/..';
-const SITE_NAME = 'نجوم الفاء للتجارة';
-const SITE_NAME_EN = 'Nujoom Al-Fa Trading';
-const SITE_PHONE = '+966503516218';
+const SITE_NAME = 'سرعة الإنجاز الدولية';                          // short brand (page titles)
+const SITE_LEGAL = 'شركة سرعة الإنجاز الدولية المحدودة';
+const SITE_NAME_EN = 'Speed International Company Limited';
+const SITE_ALT_NAMES = ['شركة سرعة الانجاز الدولية المحدودة', 'سرعة الانجاز لتأجير المعدات', 'Speed International Equipment Rental'];
+const SITE_LOGO = 'assets/img/logo.png';
+const SITE_PHONE = '+966503516218';                                   // المدير العام — زياد مطير
 const SITE_PHONE_TXT = '+966 50 351 6218';
 const SITE_WA = '966503516218';
+const SITE_PHONE2 = '+966538212539';                                  // مسؤول الحركة — عمر
+const SITE_PHONE2_TXT = '+966 53 821 2539';
+const SITE_STREET = 'مخرج ١٧ - طريق النهضة';
+const SITE_ADDRESS = 'الرياض - مخرج ١٧ - طريق النهضة';
 const SITE_LOCALE = 'ar_SA';
 const SITE_LANG = 'ar-SA';
 const DB_VERSION = 1;
@@ -217,7 +224,7 @@ function ar_date($dt) {
 function slugify($text) {
   $s = mb_strtolower(trim((string) $text));
   $s = preg_replace('/[\x{064B}-\x{065F}\x{0670}\x{0640}]/u', '', $s);            // tashkeel + tatweel
-  $s = preg_replace('/[^\p{Arabic}\p{L}\p{N}]+/u', '-', $s);
+  $s = preg_replace('/[^\p{L}\p{N}]+/u', '-', $s);                              // drops ؟ ، and other punctuation
   $s = trim(preg_replace('/-+/', '-', $s), '-');
   if (mb_strlen($s) > 80) $s = rtrim(mb_substr($s, 0, 80), '-');
   return $s;

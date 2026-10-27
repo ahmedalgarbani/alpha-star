@@ -179,7 +179,7 @@ page_start([
     <section class="container page-head">
       <p class="kicker">إعلانات المعدات</p>
       <h1 class="h2"><?= e($heading) ?></h1>
-      <p class="lead">معدات متاحة الآن من أسطول نجوم الفاء — اختر المدينة ونوع المعدة، وتواصل مباشرة واتساب لحجزها.</p>
+      <p class="lead">معدات متاحة الآن من أسطول سرعة الإنجاز الدولية — اختر المدينة ونوع المعدة، وتواصل مباشرة واتساب لحجزها.</p>
       <form class="filterbar" method="get" action="/ads/">
         <label><span>المدينة</span>
           <select name="city"><option value="">كل المدن</option>

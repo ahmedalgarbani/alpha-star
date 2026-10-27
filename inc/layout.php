@@ -3,12 +3,20 @@
 
 if (!defined('SITE_APP')) { http_response_code(404); exit; }
 
-const ASSET_VER = '20261027';
+const ASSET_VER = '20261027b';
 
 function business_ref() {
-  return ['@type' => 'LocalBusiness', '@id' => url('/#business'), 'name' => SITE_NAME, 'url' => url('/'), 'telephone' => SITE_PHONE,
-          'image' => url('/assets/img/photo-13.jpg'),
-          'address' => ['@type' => 'PostalAddress', 'addressLocality' => 'الرياض', 'addressRegion' => 'منطقة الرياض', 'addressCountry' => 'SA']];
+  return ['@type' => 'LocalBusiness', '@id' => url('/#business'), 'name' => SITE_NAME, 'legalName' => SITE_LEGAL,
+          'alternateName' => array_merge([SITE_NAME_EN], SITE_ALT_NAMES), 'url' => url('/'), 'telephone' => SITE_PHONE,
+          'logo' => url('/' . SITE_LOGO), 'image' => url('/assets/img/photo-13.jpg'),
+          'address' => ['@type' => 'PostalAddress', 'streetAddress' => SITE_STREET, 'addressLocality' => 'الرياض', 'addressRegion' => 'منطقة الرياض', 'addressCountry' => 'SA'],
+          'contactPoint' => [
+            ['@type' => 'ContactPoint', 'telephone' => SITE_PHONE, 'contactType' => 'sales', 'name' => 'زياد مطير — المدير العام', 'areaServed' => 'SA', 'availableLanguage' => ['ar']],
+            ['@type' => 'ContactPoint', 'telephone' => SITE_PHONE2, 'contactType' => 'customer service', 'name' => 'عمر — مسؤول الحركة', 'areaServed' => 'SA', 'availableLanguage' => ['ar']],
+          ]];
+}
+function brand_mark() {
+  return '<span class="brand__mark brand__mark--logo" aria-hidden="true"><img src="/' . SITE_LOGO . '" width="44" height="44" alt=""></span>';
 }
 function place_ld($city) {
   if (!isset(CITIES[$city])) return null;
@@ -94,7 +102,8 @@ function page_start(array $m) {
 <?= $ld ?>
 
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230E1116'/%3E%3Cpath d='M32 8l5.5 12.5L51 22l-9.5 9 2.8 13.8L32 38l-12.3 6.8L22.5 31 13 22l13.5-1.5z' fill='%23F6B100'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="/<?= SITE_LOGO ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;800;900&amp;family=Big+Shoulders+Display:wght@700;900&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
@@ -115,9 +124,9 @@ function page_start(array $m) {
 
   <header class="header scrolled" id="header">
     <div class="container header__inner">
-      <a href="/" class="brand" aria-label="نجوم الفاء — الرئيسية">
-        <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="24" height="24"><use href="#i-star"/></svg></span>
-        <span class="brand__text"><strong>نجوم الفاء</strong><small>لتأجير المعدات الثقيلة</small></span>
+      <a href="/" class="brand" aria-label="<?= e(SITE_NAME) ?> — الرئيسية">
+        <?= brand_mark() ?>
+        <span class="brand__text"><strong><?= e(SITE_NAME) ?></strong><small>لتأجير المعدات الثقيلة</small></span>
       </a>
       <nav class="nav" id="nav" aria-label="القائمة الرئيسية">
 <?php
@@ -158,8 +167,8 @@ function page_end() {
     <div class="container footer__inner">
       <div class="footer__brand">
         <a href="/" class="brand">
-          <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="24" height="24"><use href="#i-star"/></svg></span>
-          <span class="brand__text"><strong><?= e(SITE_NAME) ?></strong><small dir="ltr">NUJOOM AL-FA TRADING</small></span>
+          <?= brand_mark() ?>
+          <span class="brand__text"><strong><?= e(SITE_NAME) ?></strong><small dir="ltr">SPEED INTERNATIONAL CO. LTD</small></span>
         </a>
         <p>تأجير الرافعات والونشات والمعدات الثقيلة للمشاريع الإنشائية والبنية التحتية في الرياض وجميع مناطق المملكة.</p>
       </div>
@@ -180,15 +189,16 @@ function page_end() {
       </div>
       <div class="footer__col">
         <h4>تواصل</h4>
-        <a href="tel:<?= SITE_PHONE ?>" dir="ltr"><?= SITE_PHONE_TXT ?></a>
+        <a href="tel:<?= SITE_PHONE ?>"><span class="muted-label">المدير العام:</span> <span dir="ltr"><?= SITE_PHONE_TXT ?></span></a>
+        <a href="tel:<?= SITE_PHONE2 ?>"><span class="muted-label">مسؤول الحركة:</span> <span dir="ltr"><?= SITE_PHONE2_TXT ?></span></a>
         <a href="<?= e($wa) ?>" target="_blank" rel="noopener">واتساب مباشر</a>
-        <span>الرياض، المملكة العربية السعودية</span>
+        <span><?= e(SITE_ADDRESS) ?></span>
         <span>دعم ٢٤/٧</span>
       </div>
     </div>
     <div class="footer__bottom">
       <div class="container footer__bottom-inner">
-        <p>© <?= date('Y') ?> <?= e(SITE_NAME) ?> — جميع الحقوق محفوظة</p>
+        <p>© <?= date('Y') ?> <?= e(SITE_LEGAL) ?> — جميع الحقوق محفوظة</p>
         <a href="#main" class="totop">للأعلى <svg width="16" height="16" style="transform:rotate(90deg)"><use href="#i-arrow"/></svg></a>
       </div>
     </div>

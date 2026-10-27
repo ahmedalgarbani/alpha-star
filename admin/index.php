@@ -1,5 +1,5 @@
 <?php
-/* نجوم الفاء — website editor for PHP web hosting.
+/* سرعة الإنجاز الدولية — website editor for PHP web hosting.
    Open  https://your-domain.com/admin/  and log in with the password from admin/config.php. */
 
 define('ED_APP', 1);

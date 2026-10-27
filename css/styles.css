@@ -1,5 +1,5 @@
 /* ============================================================
-   نجوم الفاء للتجارة — Heavy Equipment Rental
+   سرعة الإنجاز الدولية — Heavy Equipment Rental
    Design system: asphalt black · safety amber · concrete
    ============================================================ */
 
@@ -121,6 +121,10 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
   background: var(--amber); color: var(--bg); transition: transform .6s var(--ease);
 }
 .brand:hover .brand__mark { transform: rotate(144deg); }
+.brand__mark--logo { background: #2F3589; overflow: hidden; box-shadow: 0 0 0 1px rgba(255,255,255,.14); }
+.brand__mark--logo img { width: 100%; height: 100%; object-fit: cover; }
+.brand:hover .brand__mark--logo { transform: scale(1.06); }
+.muted-label { color: var(--muted); font-size: .85em; }
 .brand__text { display: flex; flex-direction: column; line-height: 1.25; }
 .brand__text strong { font-family: var(--font-display); font-weight: 900; font-size: 1.2rem; color: #fff; }
 .brand__text small { color: var(--muted); font-size: .72rem; }
@@ -291,6 +295,28 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
 }
 .qrange input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 9px; background: var(--amber); border: 3px solid var(--bg); box-shadow: 0 0 0 2px var(--amber); }
 .qrange__scale { display: flex; justify-content: space-between; color: var(--muted); font-size: .82rem; margin-top: .2rem; }
+/* live value + − / + buttons (added by main.js) — the gauge is off-screen on phones */
+.qfield legend .qrange__val {
+  margin-inline-start: auto; padding: .15rem .8rem; border-radius: 10px; min-width: 4.5rem; text-align: center;
+  background: rgba(246,177,0,.12); border: 1px solid rgba(246,177,0,.4); color: var(--amber);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; font-variant-numeric: tabular-nums;
+}
+.qfield legend { width: 100%; }
+.qrange__val.bump { animation: qbump .3s var(--ease-out); }
+@keyframes qbump { 40% { transform: scale(1.12); background: rgba(246,177,0,.25); } }
+.qrange__row { display: flex; align-items: center; gap: .7rem; }
+.qrange__row input[type=range] { flex: 1; min-width: 0; }
+.qrange__btn {
+  flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; line-height: 1;
+  color: var(--amber); background: var(--bg-3); border: 1px solid var(--line-2);
+  touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background .2s, color .2s, border-color .2s, transform .1s;
+}
+.qrange__btn:hover { border-color: var(--amber); }
+.qrange__btn:active { background: var(--amber); color: var(--amber-ink); transform: scale(.94); }
+.qrange__btn:disabled { opacity: .35; cursor: default; background: var(--bg-3); color: var(--amber); transform: none; }
+.qrange__row + .qrange__scale { padding-inline: calc(42px + .7rem); }
 
 .seg { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 14px; background: var(--bg-2); border: 1px solid var(--line); }
 .seg label { flex: 1; min-width: 70px; }
@@ -444,7 +470,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.2; font-weight
   position: relative; display: flex; flex-direction: column; gap: .2rem; padding: 1.8rem; border-radius: var(--radius);
   background: var(--bg-2); border: 1px solid var(--line); transition: transform .35s var(--ease), border-color .3s, background .3s;
 }
-.ccard:last-child { grid-column: span 2; }
+.ccard:last-child:nth-child(even) { grid-column: span 2; }
 a.ccard:hover { transform: translateY(-5px); border-color: var(--amber); }
 .ccard--wa { border-color: rgba(34,193,94,.35); background: linear-gradient(160deg, rgba(34,193,94,.12), var(--bg-2) 60%); }
 a.ccard--wa:hover { border-color: var(--wa); }
@@ -513,6 +539,15 @@ a.ccard:hover .ccard__go { transform: translateX(-6px); color: var(--amber); }
 .lightbox__close:hover, .lightbox__nav:hover { background: var(--amber); color: var(--amber-ink); border-color: transparent; }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1280px) and (min-width: 901px) {
+  .header__inner { gap: 1.2rem; }
+  .nav { gap: .1rem; }
+  .nav > a:not(.nav__phone) { padding-inline: .5rem; font-size: .9rem; }
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+  .header__cta { display: none; }
+  .header .nav > a:not(.nav__phone) { padding-inline: .42rem; font-size: .86rem; }
+}
 @media (max-width: 1100px) {
   .nav > a:not(.nav__phone) { padding-inline: .55rem; font-size: .9rem; }
   .quote__grid { grid-template-columns: 1fr; }
@@ -576,7 +611,7 @@ a.ccard:hover .ccard__go { transform: translateX(-6px); color: var(--amber); }
   .cities { max-width: none; height: 110px; }
   .cities__track { align-items: flex-start; }
   .contact__grid { grid-template-columns: 1fr; }
-  .contact__intro, .ccard:last-child { grid-column: auto; }
+  .contact__intro, .ccard:last-child:nth-child(n) { grid-column: auto; }
   .footer__inner { grid-template-columns: 1fr; gap: 2rem; }
   .footer__bottom-inner { flex-direction: column; }
   .float-wa { width: 56px; height: 56px; bottom: 1rem; left: 1rem; }
@@ -612,5 +647,8 @@ a.ccard:hover .ccard__go { transform: translateX(-6px); color: var(--amber); }
 .faq summary::after { content: "+"; color: var(--amber); font-size: 1.6rem; line-height: 1; flex-shrink: 0; transition: transform .3s; }
 .faq details[open] summary::after { transform: rotate(45deg); }
 .faq details p { padding: 0 1.3rem 1.2rem; color: var(--muted); }
+.faq__more { margin-top: 1.2rem; }
+.faq__more a { color: var(--amber); font-weight: 700; }
+.faq__more a:hover { text-decoration: underline; }
 @media (max-width: 1024px) { .areas__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .areas { padding: 5rem 0; } .areas__grid { grid-template-columns: 1fr; } }
